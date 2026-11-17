@@ -18,7 +18,7 @@ dist:
 	sh scripts/build-all.sh $(VERSION) $(REPO)
 
 site:
-	rm -rf _site && mkdir _site && cp -R site/. _site/ && cp -R docs/images _site/images
+	rm -rf _site && mkdir _site && cp -R site/. _site/ && cp -R docs/images _site/images && cp -R web _site/app
 	@echo "Preview: python3 -m http.server -d _site 8000"
 
 clean:

@@ -367,6 +367,18 @@ td.us { background: var(--accent-soft); color: var(--text); font-weight: 500; }
 .honest ul b { color: var(--text); font-weight: 500; }
 @media (max-width: 760px) { .honest { grid-template-columns: 1fr; } }
 
+/* ---------- Try in browser ---------- */
+.try { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; align-items: center; padding: 48px; border: 1px solid var(--border-2); border-radius: 18px; background: linear-gradient(135deg, var(--accent-soft), transparent 60%), var(--bg-2); }
+.try h2 { margin-top: 14px; }
+.support { border: 1px solid var(--border); border-radius: 12px; background: var(--raise); font-size: 14px; overflow: hidden; }
+.support-head { padding: 12px 18px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); border-bottom: 1px solid var(--border); }
+.support-row { display: flex; justify-content: space-between; gap: 16px; padding: 12px 18px; border-bottom: 1px solid var(--border); }
+.support-row:last-child { border-bottom: 0; }
+.support-row span { color: var(--muted); }
+.support-row b { font-weight: 500; text-align: right; }
+.support-row code { font-size: 12px; }
+@media (max-width: 860px) { .try { grid-template-columns: 1fr; gap: 32px; padding: 28px 22px; } }
+
 /* ---------- Shortcuts ---------- */
 .keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 48px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
 .key { background: var(--bg); padding: 22px 20px; display: flex; flex-direction: column; gap: 12px; }
@@ -406,6 +418,7 @@ footer { border-top: 1px solid var(--border); padding: 56px 0 40px; font-size: 1
   <symbol id="i-gh" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></g></symbol>
   <symbol id="i-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></g></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15a1 1 0 001.5.86l12-7.5a1 1 0 000-1.72l-12-7.5A1 1 0 007 4.5z"/></symbol>
   <symbol id="i-bm" viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h12a1 1 0 011 1v19l-7-4.5L5 22V3a1 1 0 011-1z"/></symbol>
   <symbol id="i-logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="var(--accent)"/><path d="M9 23V9l7 9 7-9v14" fill="none" stroke="var(--accent-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
@@ -419,6 +432,7 @@ footer { border-top: 1px solid var(--border); padding: 56px 0 40px; font-size: 1
       <a href="#private">Privacy</a>
       <a href="#compare">Compare</a>
       <a href="#install">Install</a>
+      <a href="app/">Try it</a>
     </div>
     <div class="nav-right">
       <button class="icon-btn" id="theme" aria-label="Toggle light and dark theme">
@@ -443,12 +457,12 @@ footer { border-top: 1px solid var(--border); padding: 56px 0 40px; font-size: 1
         <button role="tab" aria-selected="false" data-cmd="git clone https://github.com/BhishitDave/mdmargin.git && cd mdmargin && make build">From source</button>
       </div>
       <div class="cmd"><span class="prompt">$</span><code>curl -fsSL https://raw.githubusercontent.com/BhishitDave/mdmargin/main/install.sh | sh</code><button class="copy" aria-label="Copy command"><svg><use href="#i-copy"/></svg><span>Copy</span></button></div>
-      <p class="install-note">Verifies the checksum and installs to <code>~/.local/bin</code>. On Windows, grab the binary from <a href="https://github.com/BhishitDave/mdmargin/releases/latest" style="text-decoration:underline">Releases</a>.</p>
+      <p class="install-note">Verifies the checksum and installs to <code>~/.local/bin</code>. On Windows, grab the binary from <a href="https://github.com/BhishitDave/mdmargin/releases/latest" style="text-decoration:underline">Releases</a>, or <a href="app/" style="text-decoration:underline">try it without installing</a>.</p>
     </div>
 
     <div class="hero-cta">
-      <a class="btn primary" href="https://github.com/BhishitDave/mdmargin"><svg><use href="#i-gh"/></svg>Star on GitHub<span class="count" data-stars hidden></span></a>
-      <a class="btn" href="https://github.com/BhishitDave/mdmargin/releases/latest"><svg><use href="#i-down"/></svg>Download binaries</a>
+      <a class="btn primary" href="app/"><svg><use href="#i-play"/></svg>Try it in your browser</a>
+      <a class="btn" href="https://github.com/BhishitDave/mdmargin"><svg><use href="#i-gh"/></svg>Star on GitHub<span class="count" data-stars hidden></span></a>
     </div>
 
     <div class="ways">
@@ -673,6 +687,28 @@ footer { border-top: 1px solid var(--border); padding: 56px 0 40px; font-size: 1
   </div>
 </section>
 
+<section id="try">
+  <div class="wrap">
+    <div class="try reveal">
+      <div>
+        <div class="eyebrow">No install</div>
+        <h2>Try it right here, <em>in your browser.</em></h2>
+        <p class="sub">The full app runs as a static page. Open a Markdown file or a whole folder, or start with the built-in guide. Your files are read by your browser and never uploaded.</p>
+        <div class="hero-cta" style="justify-content:flex-start">
+          <a class="btn primary" href="app/"><svg><use href="#i-play"/></svg>Open Margin in the browser</a>
+        </div>
+      </div>
+      <div class="support">
+        <div class="support-head">Saving back to the file</div>
+        <div class="support-row"><span>Chrome, Edge</span><b class="yes">Open folders and save</b></div>
+        <div class="support-row"><span>Brave</span><b>After enabling a flag</b></div>
+        <div class="support-row"><span>Firefox, Safari</span><b>Read, and Save downloads a copy</b></div>
+        <div class="support-row"><span>mdmargin binary</span><b class="yes">Saves in every browser</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="cta" id="install">
   <div class="wrap">
     <h2 class="reveal">Start reading <em>in seconds.</em></h2>
@@ -687,6 +723,7 @@ footer { border-top: 1px solid var(--border); padding: 56px 0 40px; font-size: 1
     </div>
     <div class="hero-cta reveal">
       <a class="btn primary" href="https://github.com/BhishitDave/mdmargin/releases/latest"><svg><use href="#i-down"/></svg>Download <span data-version>v0.1.0</span></a>
+      <a class="btn" href="app/"><svg><use href="#i-play"/></svg>Try in browser</a>
       <a class="btn" href="https://github.com/BhishitDave/mdmargin#readme">Read the docs →</a>
     </div>
   </div>
@@ -700,7 +737,7 @@ footer { border-top: 1px solid var(--border); padding: 56px 0 40px; font-size: 1
         <p>A lightweight Markdown reader you can write and annotate in. One binary, no account, nothing uploaded.</p>
       </div>
       <div><h5>Product</h5><ul><li><a href="#annotate">Features</a></li><li><a href="#markdown">File format</a></li><li><a href="#themes">Themes</a></li><li><a href="#compare">Compare</a></li></ul></div>
-      <div><h5>Get it</h5><ul><li><a href="#install">Install</a></li><li><a href="https://github.com/BhishitDave/mdmargin/releases">Releases</a></li><li><a href="https://github.com/BhishitDave/mdmargin#usage">Usage</a></li><li><a href="https://github.com/BhishitDave/mdmargin#keyboard-shortcuts">Shortcuts</a></li></ul></div>
+      <div><h5>Get it</h5><ul><li><a href="#install">Install</a></li><li><a href="app/">Try in browser</a></li><li><a href="https://github.com/BhishitDave/mdmargin/releases">Releases</a></li><li><a href="https://github.com/BhishitDave/mdmargin#usage">Usage</a></li><li><a href="https://github.com/BhishitDave/mdmargin#keyboard-shortcuts">Shortcuts</a></li></ul></div>
       <div><h5>Project</h5><ul><li><a href="https://github.com/BhishitDave/mdmargin">Source</a></li><li><a href="https://github.com/BhishitDave/mdmargin/issues">Issues</a></li><li><a href="https://github.com/BhishitDave/mdmargin#future-scope">Roadmap</a></li><li><a href="https://github.com/BhishitDave/mdmargin/blob/main/LICENSE">License</a></li></ul></div>
     </div>
     <div class="legal"><span>© 2026 Margin · MIT licensed</span><span>Made for slow reading.</span></div>
