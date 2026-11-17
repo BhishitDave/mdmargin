@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Margin — Markdown reader</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23b4532a'/%3E%3Cpath d='M9 22V10l7 8 7-8v12' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="progress"><i id="progress"></i></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <span class="logo">M</span>
+    <span class="brand-name">Margin</span>
+  </div>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="files" role="tab">Files</button>
+    <button class="tab" data-tab="outline" role="tab">Outline</button>
+    <button class="tab" data-tab="marks" role="tab">Marks</button>
+  </nav>
+
+  <section class="panel active" data-panel="files">
+    <div class="panel-actions">
+      <button class="btn" id="openFolder">
+        <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Open folder
+      </button>
+      <button class="btn" id="openFile">
+        <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+        Open file
+      </button>
+    </div>
+    <button class="btn wide hidden" id="reopenFolder"></button>
+    <div class="folder-head hidden" id="folderHead">
+      <span id="folderName"></span>
+      <button class="icon-btn small" id="newFile" title="New file in this folder">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+    <input class="filter hidden" id="fileFilter" type="search" placeholder="Filter files…  ⌘K" autocomplete="off">
+    <div class="tree" id="tree"></div>
+    <p class="hint" id="filesHint">Open a folder to browse its Markdown files, or drop a file anywhere.</p>
+  </section>
+
+  <section class="panel" data-panel="outline">
+    <div class="outline" id="outline"></div>
+  </section>
+
+  <section class="panel" data-panel="marks">
+    <div id="marks"></div>
+  </section>
+</aside>
+
+<main class="main" id="main">
+  <header class="topbar" id="topbar">
+    <button class="icon-btn" id="toggleSidebar" title="Toggle sidebar (⌘\)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M9 4v16"/></svg>
+    </button>
+    <div class="doc-title">
+      <span id="docName">Welcome.md</span>
+      <span class="dirty-dot hidden" id="dirtyDot" title="Unsaved changes"></span>
+    </div>
+    <button class="btn primary hidden" id="saveBtn" title="Save (⌘S)">Save</button>
+
+    <div class="seg" id="modeSeg">
+      <button data-mode="read" class="active" title="Read">Read</button>
+      <button data-mode="edit" title="Edit in place (⌘E)">Edit</button>
+      <button data-mode="source" title="Raw Markdown (⌘/)">Markdown</button>
+    </div>
+
+    <button class="icon-btn" id="bookmarkBtn" title="Bookmark this spot (⌘D)">
+      <svg viewBox="0 0 24 24"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg>
+    </button>
+    <button class="icon-btn" id="appearanceBtn" title="Appearance">
+      <span class="aa">Aa</span>
+    </button>
+    <button class="icon-btn" id="focusBtn" title="Reading mode (⌘.)">
+      <svg viewBox="0 0 24 24"><path d="M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4"/></svg>
+    </button>
+    <button class="icon-btn" id="menuBtn" title="More">
+      <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>
+    </button>
+  </header>
+
+  <div class="scroller" id="scroller">
+    <div class="page" id="page">
+      <article class="doc" id="doc" spellcheck="false"></article>
+      <textarea class="source hidden" id="source" spellcheck="false"></textarea>
+      <div class="notes-layer" id="notesLayer"></div>
+    </div>
+  </div>
+
+  <button class="exit-focus" id="exitFocus" title="Exit reading mode (Esc)">
+    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</main>
+
+<!-- Selection bubble -->
+<div class="bubble hidden" id="bubble">
+  <button class="dot" data-hl="yellow" title="Highlight yellow"></button>
+  <button class="dot" data-hl="green" title="Highlight green"></button>
+  <button class="dot" data-hl="pink" title="Highlight pink"></button>
+  <button class="dot" data-hl="blue" title="Highlight blue"></button>
+  <button class="bb" data-act="unmark" title="Remove highlight">
+    <svg viewBox="0 0 24 24"><path d="M5 19h14M8 15l8-8M9 7l8 8"/></svg>
+  </button>
+  <span class="sep"></span>
+  <button class="bb" data-act="note" title="Add sticky note">
+    <svg viewBox="0 0 24 24"><path d="M5 4h14a1 1 0 0 1 1 1v9l-6 6H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M20 14h-5a1 1 0 0 0-1 1v5"/></svg>
+  </button>
+  <button class="bb" data-act="bookmark" title="Bookmark">
+    <svg viewBox="0 0 24 24"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg>
+  </button>
+  <span class="sep edit-only"></span>
+  <button class="bb edit-only" data-act="bold" title="Bold (⌘B)"><b>B</b></button>
+  <button class="bb edit-only" data-act="italic" title="Italic (⌘I)"><i>I</i></button>
+  <button class="bb edit-only" data-act="code" title="Inline code">
+    <svg viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg>
+  </button>
+  <button class="bb edit-only" data-act="link" title="Link">
+    <svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+  </button>
+</div>
+
+<!-- Appearance popover -->
+<div class="popover hidden" id="appearance">
+  <div class="pop-label">Theme</div>
+  <div class="themes" id="themes">
+    <button data-theme-opt="auto"><i class="sw sw-auto"></i>Auto</button>
+    <button data-theme-opt="light"><i class="sw sw-light"></i>Light</button>
+    <button data-theme-opt="sepia"><i class="sw sw-sepia"></i>Sepia</button>
+    <button data-theme-opt="dark"><i class="sw sw-dark"></i>Dark</button>
+  </div>
+  <div class="pop-label">Font</div>
+  <div class="fonts" id="fonts"></div>
+  <label class="slider"><span>Size</span><input type="range" id="optSize" min="14" max="24" step="1"><output></output></label>
+  <label class="slider"><span>Line height</span><input type="range" id="optLeading" min="1.35" max="2" step="0.05"><output></output></label>
+  <label class="slider"><span>Width</span><input type="range" id="optWidth" min="520" max="960" step="20"><output></output></label>
+</div>
+
+<!-- More menu -->
+<div class="popover menu hidden" id="menu">
+  <button data-menu="openFile">Open file…</button>
+  <button data-menu="openFolder">Open folder…</button>
+  <button data-menu="save">Save <kbd>⌘S</kbd></button>
+  <hr>
+  <button data-menu="cleanSave">Save clean copy…</button>
+  <button data-menu="cleanCopy">Copy clean Markdown</button>
+  <button data-menu="strip" class="danger">Remove all annotations</button>
+  <hr>
+  <button data-menu="welcome">Show welcome guide</button>
+</div>
+
+<dialog id="confirm">
+  <form method="dialog">
+    <h3 id="confirmTitle"></h3>
+    <p id="confirmText"></p>
+    <div class="dialog-actions" id="confirmActions"></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+<div class="drop-veil" id="dropVeil"><div>Drop to open</div></div>
+<input type="file" id="fallbackFile" accept=".md,.markdown,.mdx,.txt,text/markdown,text/plain" hidden>
+<input type="file" id="fallbackFolder" webkitdirectory hidden>
+
+<script src="vendor/marked.min.js"></script>
+<script src="vendor/purify.min.js"></script>
+<script src="vendor/turndown.js"></script>
+<script src="vendor/turndown-plugin-gfm.js"></script>
+<script src="welcome.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

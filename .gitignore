@@ -1,0 +1,6 @@
+.DS_Store
+/mdmargin
+/mdmargin.exe
+/dist/
+node_modules/
+package-lock.json

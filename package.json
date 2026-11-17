@@ -1,0 +1,11 @@
+{
+  "name": "mdmargin",
+  "private": true,
+  "description": "Tests for the Margin web app. The app itself has no build step and no runtime dependencies.",
+  "scripts": {
+    "test": "node test/web.test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^26.0.0"
+  }
+}
