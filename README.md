@@ -7,6 +7,14 @@
 - Highlights, sticky notes and bookmarks that live inside the `.md` file, and a one-click clean copy for sharing.
 - Runs entirely on your machine. Files are never uploaded.
 
+![Margin showing a Markdown essay with coloured highlights, a bookmark and sticky notes in the margin](docs/images/reader-light.png)
+
+| | |
+| --- | --- |
+| **Select text to mark it up**<br>Highlight in four colours, pin a sticky note or drop a bookmark.<br><br>![Selection toolbar with highlight colours, note and bookmark buttons](docs/images/selection-toolbar.png) | **Everything you marked, in one place**<br>The Marks tab lists bookmarks, notes and highlights; click one to jump to it.<br><br>![Sidebar listing bookmarks, notes and highlights](docs/images/marks-panel.png) |
+| **Reading mode**<br>Hides everything but the text. Shown here in the Sepia theme.<br><br>![Distraction-free reading mode in the sepia theme](docs/images/reading-mode.png) | **Dark theme**<br>Light, Sepia, Dark, or follow the system.<br><br>![The same document in the dark theme](docs/images/reader-dark.png) |
+| **Make it yours**<br>Ten typefaces, text size, line height and column width.<br><br>![Appearance panel with theme, font and size controls](docs/images/appearance.png) | **It is still plain Markdown**<br>Annotations are stored in the file as `==highlights==` and hidden comments.<br><br>![Markdown source view showing how annotations are stored](docs/images/markdown-mode.png) |
+
 ## Installation
 
 macOS and Linux:
@@ -118,6 +126,13 @@ The web app has no framework and no build step. Rendered Markdown is sanitised, 
 make test     # Go tests, plus headless tests of the Markdown round trip (needs Node)
 make run      # build and open the current folder
 make dist     # cross-compile all release binaries into dist/
+```
+
+The screenshots above are generated from the demo library in `docs/demo`. To refresh them after a visual change:
+
+```sh
+npm i --no-save playwright && npx playwright install chromium
+make build && node scripts/screenshots.mjs
 ```
 
 ## Releasing
