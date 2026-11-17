@@ -47,7 +47,6 @@ const select = (page, text) => page.evaluate(text => {
 
 try {
   let page = await open();
-  await shot(page, 'reader-light');
 
   await select(page, 'keeps the thought attached to the thing that caused it');
   await page.waitForTimeout(300);

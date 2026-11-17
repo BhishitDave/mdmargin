@@ -7,7 +7,7 @@
 - Highlights, sticky notes and bookmarks that live inside the `.md` file, and a one-click clean copy for sharing.
 - Runs entirely on your machine. Files are never uploaded.
 
-![Margin showing a Markdown essay with coloured highlights, a bookmark and sticky notes in the margin](docs/images/reader-light.png)
+![Demo: highlighting a sentence, pinning a sticky note, adding a bookmark, editing in place, saving, then switching to the dark theme and reading mode](docs/images/demo.gif)
 
 | | |
 | --- | --- |
@@ -128,11 +128,12 @@ make run      # build and open the current folder
 make dist     # cross-compile all release binaries into dist/
 ```
 
-The screenshots above are generated from the demo library in `docs/demo`. To refresh them after a visual change:
+The screenshots and demo at the top are generated from the demo library in `docs/demo`. To refresh them after a visual change:
 
 ```sh
 npm i --no-save playwright && npx playwright install chromium
-make build && node scripts/screenshots.mjs
+make build && node scripts/screenshots.mjs   # still images
+node scripts/demo.mjs                        # the animated demo (also needs ffmpeg)
 ```
 
 ## Releasing
